@@ -2,9 +2,9 @@
 require('./config/config')
 //Exportacion de paquetes js
 const express = require('express')
+const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const app = express()
-const puerto = 8000
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -15,31 +15,13 @@ app.get('/', function (req, res) {
     res.json('Hello World')
 })
 
-app.get('/usuarios', function (req, res) {
-    res.json('get usuarios')
-})
+app.use(require('./routes/usuario.routes'))
 
-app.post('/usuarios', function (req, res) {
-    let body = req.body
-
-    if (body.nombre == undefined) {
-        res.status(400).json({
-            status: false,
-            mensaje: "Nombre es necesario"
-        })
-    }else{
-        res.json({ persona: body })
+mongoose.connect('mongodb://localhost:27017/cafe',{ useNewUrlParser: true },
+    (err,res)=>{
+        console.log("Base de datos Conectada ...")
     }
-})
-
-app.put('/usuarios/:id', function (req, res) {
-    let id = req.params.id
-    res.json({ id })
-})
-
-app.delete('/usuarios', function (req, res) {
-    res.json('delete usuarios')
-})
+)
 
 app.listen(process.env.PORT, () => {
     console.log("Iniciando servidor ..", process.env.PORT);
