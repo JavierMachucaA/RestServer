@@ -20,7 +20,7 @@ app.get('/', function (req, res) {
 
 app.use(require('./routes/usuario.routes'))
 
-mongoose.connect('mongodb://localhost:27017/cafe',{ useNewUrlParser: true },
+mongoose.connect(process.env.URLDB,{ useNewUrlParser: true },
     (err,res)=>{
         console.log("Base de datos Conectada ...")
     }
