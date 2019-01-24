@@ -8,29 +8,47 @@ var salt = bcrypt.genSaltSync(12);
 
 const Usuario = require('../models/usuario.model')
 
+const  verificarToken  = require('../middleware/autenticacion')
+
 const app = express()
 
 const log = require('../../utils/logger')
 
-app.get('/usuarios', function (req, res) {
-    let desde = req.query.desde || 1 
-    desde = Number(desde) - 1
-    let limite =  req.query.limite || 6 
-    limite = Number(limite) - 1
+app.get('/', function (req, res) {
+    res.json('Hello World')
+})
+
+app.get('/usuarios',verificarToken, function (req, res) {
+    
+    let desde = req.query.desde || 0;
+    desde = Number(desde);
+
+    let limite = req.query.limite || 5;
+    limite = Number(limite);
     let condiciones = {estado:true} //google:true
     let campos = 'nombre email role estado google img'
+    
     Usuario.find(condiciones,campos)
     .skip(desde)
     .limit(limite)
     .exec(
         (err,usuarios)=>{
+            console.log("desde",desde," limite",limite)
         if(err){
             return res.status(400).json({ 
                 status: false,
                 mensaje: err
             });
         }
+        //console.log("consultando usuarios ")
         Usuario.countDocuments(condiciones,(error,conteo)=>{
+            if(error){
+                return res.status(400).json({ 
+                    status: false,
+                    mensaje: error
+                });
+            }
+            //console.log("sin errores ")
             res.json({
                 status: true,
                 mensaje: usuarios,
@@ -40,7 +58,7 @@ app.get('/usuarios', function (req, res) {
     })
 })
 
-app.post('/usuarios', function (req, res) {
+app.post('/usuario', function (req, res) {
     
     let body = req.body
     
