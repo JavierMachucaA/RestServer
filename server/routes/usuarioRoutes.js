@@ -8,7 +8,7 @@ var salt = bcrypt.genSaltSync(12);
 
 const Usuario = require('../models/usuario.model')
 
-const  verificarToken  = require('../middleware/autenticacion')
+const  {verificarToken,verificaAdminRol}  = require('../middleware/autenticacion')
 
 const app = express()
 
@@ -58,7 +58,7 @@ app.get('/usuarios',verificarToken, function (req, res) {
     })
 })
 
-app.post('/usuario', function (req, res) {
+app.post('/usuario',[verificarToken,verificaAdminRol], function (req, res) {
     
     let body = req.body
     
@@ -86,7 +86,7 @@ app.post('/usuario', function (req, res) {
 
 })
 
-app.put('/usuarios/:id', function (req, res) {
+app.put('/usuarios/:id',[verificarToken,verificaAdminRol], function (req, res) {
     let id = req.params.id
     let body = _.pick( req.body,[
         'nombre',
@@ -114,7 +114,7 @@ app.put('/usuarios/:id', function (req, res) {
 
 })
 
-app.delete('/usuario/:id', function (req, res) {
+app.delete('/usuario/:id',verificarToken, function (req, res) {
     
     let id = req.params.id
 
