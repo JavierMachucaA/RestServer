@@ -20,6 +20,12 @@ process.env.EXPIRATION_SESSION = 60*60*24*30
 //########################
 process.env.SEED = 'seed-dev'
 
+//########################
+// Google Id
+//########################
+process.env.CLIENT_ID = process.env.CLIENT_ID || '328376953404-urod69mu9r9eak9kfmi3dq90odtfdc6f.apps.googleusercontent.com'
+
+
 let urlDB;
 
 if (process.env.NODE_ENV === 'dev') {
