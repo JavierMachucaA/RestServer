@@ -153,7 +153,7 @@ app.delete('/usuario/:id',verificarToken, function (req, res) {
         }
         log(usuario)
         res.json({
-            ok: true,
+            status: true,
             usuario: usuario
         });
         

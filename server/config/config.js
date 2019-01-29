@@ -13,7 +13,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 //expiracion
 //########################
 
-process.env.EXPIRATION_SESSION = 60*60*24*30
+process.env.EXPIRATION_SESSION = '48h'
 
 //########################
 //seed
