@@ -4,7 +4,7 @@ const app = express()
 
 const { verificarToken, verificaAdminRol } = require('../middleware/autenticacion')
 
-const Producto = require('../models/producto')
+const Producto = require('../models/producto.model')
 
 /**
  * Trae todos los productos
