@@ -107,7 +107,7 @@ function imagenProducto(id, res, nombreArchivo) {
         if (!productoDB) {
             return res.status(400).json({
                 status: false,
-                mensaje: 'usuario no existe'
+                mensaje: 'producto no existe'
             });
         }
 
